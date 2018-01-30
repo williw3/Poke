@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>POKES</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/first_app/styles.css' %}" media="screen" title="no title"  charset="utf-8">
+</head>
+
+<body>
+    <a href="/logout" class="nav-links">Logout</a>
+    <h1 id="main-header">Welcome, {{ current_user.name }}</h1>
+    <div class="col-6">
+        <h4>{{ current_user.pokes }}, people poked you!</h4>
+        
+    </div>
+    <div class="col-6">
+        <h4>People you may want to poke:</h4>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Alias</th>
+                <th>Email Address:</th>
+                <th>Poke History</th>
+                <th>Action</th>
+
+            </tr>
+            <tbody>
+                {% for poke in other_users %}
+                <tr>
+                    <td>{{ poke.name }}</td>
+                    <td><a href="">{{ poke.alias }}</a></td>
+                    <td>{{ poke.email }}</td>
+                    <td>{{ poke.pokes }} pokes</td>
+                    <td>
+                        <form action="/{{poke.id}}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="poke!">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
